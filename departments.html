@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Departments</title>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="style.css" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript">
+    
+    // Load the Visualization API and the piechart package.
+    google.load('visualization', '1.0', {'packages':['controls', 'corechart']});
+	google.setOnLoadCallback(drawDashboard);
+    google.setOnLoadCallback(drawChart);
+	
+	function drawChart() {	  
+		var options1 = {
+			title: 'Georgia Overall Executive Budget',
+			hAxis: {title: 'Departments',  titleTextStyle: {color: '#333'}},
+			vAxis: {title: 'Dollars', titleTextStyle: {color: '#333'}},
+			isStacked: true,
+			tooltip: { trigger: 'selection' },
+			legend: {position: 'right'}
+			};
+		
+		var jsonData1 = $.ajax({
+			url: "getDataChart.php",
+			dataType:"json",
+			async: false
+			}).responseText;
+          
+    // Create our data table out of JSON data loaded from server.
+		//Overall Data
+		var data1 = new google.visualization.DataTable(jsonData1);
+		
+	// Instantiate and draw our chart, passing in some options.
+		var chart1 = new google.visualization.SteppedAreaChart(document.getElementById('chart1_div'));
+		chart1.draw(data1, options1);
+	}
+	
+	function drawDashboard() {
+
+        // Create our data table.
+        var data2 = google.visualization.arrayToDataTable([
+			['Department','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015'],
+			['Accounting',0,0,10579683,6802841,7205916,5456173,4626452,3837653,3689254,3781064,4951149,5093761],
+			['Administrative Services',431148410,28629573,173735825,22016619,16118189,13792429,10899508,10615793,7860094,4848272,4890092,5004113],
+			['Agriculture',50938013,39767543,49605178,42911540,46192622,46719425,43529578,39991014,30926045,40734043,40140382,43898672],
+			['Banking and Finance',10724849,9850558,10976353,11581920,12218642,12898273,12355581,11249726,11071192,11357111,11203815,11669059],
+			['Behavioral Helath and Developmental Disabilities',0,0,0,0,0,0,700680399,764680628,893724585,928225891,955975909,971144274],
+			['Community Affairs',242245000,73887133,184876986,94212593,140821229,100549877,26933317,25665615,27220193,38921611,64110524,64378953],
+			['Community Health',7361419352,2147704748,9391768325,2379182299,2482108214,2514291820,2288391753,2073369665,2454836912,2711373577,2922054904,3068797905],
+			['Corrections',942684235,882663975,958801358,997756694,1100549710,1157668132,986640067,971895293,1054856930,1121908791,1131839911,1150027802],
+			['Defense',44607181,7407075,47012410,8815464,11344298,11716641,10693740,8660548,8862426,9101329,9141317,9496994],
+			['Driver Services',90332695,77218681,47878941,53431393,61420009,62791511,59251761,58204543,57053533,59380684,60662807,62789864],
+			['Early Care and Learning',0,274081522,404741038,303009646,329443829,341592254,353540557,356293479,301820403,354061853,367625482,369793520],
+			['Economic Development',0,25812690,32288946,34677302,49522812,39581672,33148712,28502844,39688684,40617320,36439221,35565271],
+			['Education',7335057368,5933991990,7595084428,7219516840,7906980808,8195597771,7393006953,6989931274,6969195136,7168032040,7409293094,7951720712],
+			['Employees Retirement',11596478,617000,28226255,8083095,4674801,7161826,7187430,8790784,17165784,26432022,29051720,30364769],
+			['Forestry',40626619,31541263,388202402,33914092,37140677,39265053,32856296,28530457,28365917,30440883,30456519,21115868],
+			['Governor',48327412,36065865,46011242,41076593,46716383,57642768,48985692,40659692,53016258,57604463,50984482,52535592],
+			['Human Services',2606612394,1372493286,2799447161,1423526488,1563191298,1661556492,515784587,482139875,493851322,491702876,491774790,522303621],
+			['Industry, Trade, and Tourism',17885229,0,0,0,0,0,0,0,0,0,0,0],
+			['Insurance ',17885229,15573182,17850908,17686741,18864818,19230125,17321489,15753147,16123050,18967615,19325561,19839192],
+			['Investigation',92569746,57618104,96965076,65881591,74268077,77283568,62905982,60411421,63188521,80216268,88626293,96114419],
+			['Juvenile Justice',302177553,265188338,305828494,297707111,321988293,342932665,288029073,266457146,285712163,300747134,301248640,307861501],
+			['Labor',355112620,48925839,355329356,51657624,55209022,55769092,47432021,39486525,37724399,14406411,14039424,14117495],
+			['Law',36426278,13229060,50715175,14670539,18446804,19650981,18008924,16981091,17756917,18838265,19227251,21242362],
+			['Meritt System of Personnel Administration',15646732,0,13610169,0,0,0,0,0,0,0,0,0],
+			['Natural Resources',145362228,90744022,194199329,109447299,13055764,130877057,101981728,91103109,86544292,92055099,92494032,98797105],
+			['Pardons and Paroles',47497086,44228494,47727215,50115887,55612881,58439590,53417306,50847673,51867417,53881771,52986068,54171545],
+			['Properites',0,0,558553,0,1250000,0,0,3200000,0,0,0,0],
+			['Pulic Defender Standarsd Council',0,0,0,27832122,35430140,40439957,39789395,38438945,38679115,40400824,41218026,42670962],
+			['Public School Employees Retirement System',11220726,1420696,0,0,0,0,0,0,0,0,0,0],
+			['Public Health',0,0,0,0,0,0,0,0,205573503,218182965,222915836,229010878],
+			['Public Safety',101116445,84895096,11588400,103561759,121232673,135260351,104898080,101043195,112065614,119496578,120420700,130308527],
+			['Public Service',9301164,8073708,869178,8047095,9965190,10348009,9735943,8439986,7974361,7963566,7735488,7966996],
+			['Regents',4149169304,1658443732,4562782660,1932973502,2135814859,2300517851,2080354094,1923161990,1738915019,1828569784,1883128792,1939267764],
+			['Revenue',494120702,460305370,545508977,548811784,554241659,557498041,113235387,109938316,130200769,13971911,174509476,178733395],
+			['Secretary of State',35626421,35407299,35531729,37264162,39639484,40504390,33871025,31415522,29812853,30930113,23393403,23912430],
+			['Soil and Water Conservation',4552198,3927770,12817114,3097477,3517863,3572839,3185293,2774843,2585421,2652481,2612536,2576645],
+			['Student Finance',480164062,538248636,560009290,576267284,556920642,576791488,626193024,805392439,649840771,640153723,634376472,687243546],
+			['Teachers Retirement System',26898269,2138000,24742451,3903200,1555000,1523000,1129000,965000,793000,590000,513000,513000],
+			['Technical College System of Georgia',389518684,288122395,396324918,336788064,373317567,370975007,331829976,319910401,313270886,330570350,313866703,332804904],
+			['Transportation',1658455340,646858968,1769049341,664031462,773787194,856216563,703739478,682112491,720307033,794416060,835930315,856106198],
+			['Veterans Service',33363216,21017073,32324506,23145033,25286306,25701669,22822878,21182680,20536594,20429441,20135998,20501201],
+			['Workers Compensation',17010671,14503707,15937280,16100599,17268050,17720194,19319813,20975522,21460870,21955175,22701246,23105143],
+			['General Obligation Debt Sinking Fund',778879879,923167993,935015180,864362477,934608991,1009675013,1130789728,1167251047,1065192429,1124937314,1170767561,1118666821]
+        ]);
+
+        // Create a dashboard.
+        var dashboard = new google.visualization.Dashboard(
+            document.getElementById('dashboard_div'));
+
+        // Create a range slider, passing some options
+        var control2 = new google.visualization.ControlWrapper({
+          'controlType': 'StringFilter',
+          'containerId': 'control2_div',
+			'matchType': 'any',
+          'options': {
+            'filterColumnLabel': 'Department'
+          }
+        });
+
+        // Create a pie chart, passing some options
+        var table2 = new google.visualization.ChartWrapper({
+			'chartType': 'Table',
+			'containerId': 'table2_div'
+			
+        });
+		
+		 var formatter = new google.visualization.NumberFormat(
+			{
+			prefix: '$'
+			}
+		);
+		
+		for (i = 1; i < 13; i++) {
+			formatter.format(data2, i);
+		}
+	
+        // Establish dependencies, declaring that 'filter' drives 'pieChart',
+        // so that the pie chart will only display entries that are let through
+        // given the chosen slider range.
+        dashboard.bind(control2, table2);
+
+        // Draw the dashboard.
+        dashboard.draw(data2);
+      }
+	
+	
+	</script>
+</head>
+
+<body class="body">
+	
+	<header class="mainHeader">
+		<h1><center>Georgia Budget Watch</center></h1>
+		<nav><ul>
+			<li><a href="index.html">Home</a></li>
+			<li class="active"><a href="departments.html">Departments</a></li>
+			<li><a href="comparison.html">Comparison</a></li>
+			<li><a href="employees.html">Employees</a></li>
+		</ul></nav>
+	</header>
+		
+	<div class="mainContent">
+		<div class="topcontent"><center>
+			<!-- Area Chart -->
+			<div id="chart1_div" style="width: 800px; height: 500px;"></div>
+		</center></div>
+		
+		<div class="bottomcontent">
+			<div id="dashboard_div">
+				<table>
+					<center><tr>
+						<div id="control2_div" align="center" style="color: #FFF"></div>
+						<div id="table2_div" align="center" style="width: 850px; height: 500px;"></div>
+					</tr></table>
+				</table>
+			</div>
+		</div>	
+		
+	</div>
+			
+	<footer class="mainFooter">
+		<p>Copyright &copy; 2014 <a href="mailto:tgasque@gmail.com">Travis Gasque</a></p>
+	</footer>
+
+</body>
+</html>

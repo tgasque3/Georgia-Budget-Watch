@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Georgia Budget Watch</title>
+	<meta charset="utf-8" />	
+	<link rel="stylesheet" href="style.css" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript">
+    
+    // Load the Visualization API and the piechart package.
+    google.load('visualization', '1', {'packages':['corechart']});
+      
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.setOnLoadCallback(drawChart);
+	
+	function drawChart() {	  		
+		var jsonData = $.ajax({
+			url: "getDataChart.php",
+			dataType:"json",
+			async: false
+			}).responseText;
+			
+		//Overall Data
+		var data = new google.visualization.DataTable(jsonData);
+		
+		var options = {
+			title: 'Georgia Overall Executive Budget',
+			hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+			vAxis: {title: 'Dollars', titleTextStyle: {color: '#333'}},
+			isStacked: true,
+			selectionMode: 'multiple'
+		};
+		
+		var chart = new google.visualization.SteppedAreaChart(document.getElementById('chart_div'));
+		chart.draw(data, options);	  
+	}
+	</script>	
+</head>
+
+<body class="body">
+	
+	<header class="mainHeader">
+		<h1><center>Georgia Budget Watch</center></h1>
+		<nav><ul>
+			<li class="active"><a href="index.html">Home</a></li>
+			<li><a href="departments.html">Departments</a></li>
+			<li><a href="comparison.html">Comparison</a></li>
+			<li><a href="employees.html">Employees</a></li>
+		</ul></nav>
+	</header>
+		
+	<div class="mainContent">
+		<div class="topcontent">	
+			<center>
+			<!-- Area Chart -->
+			<a href="departments.html"><img src="introImage.png"></img></a>
+			<!-- MIssion Statement -->	
+			<p>
+				This website is designed to provide visualization for the Georgia State Budget. Georgia Budget Watch currently only houses data for the Executive Branch of the Georgia State Budget. Eventually this site hopes to proved all data from all three branches of the Georgia state government.
+			</p>
+			
+			<p>
+				The charts and tables on this site were created using the <a href="https://developers.google.com/chart/">Google Charts API</a>. 
+			</p>
+			
+			</center>
+		</div>
+	</div>
+	
+	<footer class="mainFooter">
+		<p>Copyright &copy; 2014 <a href="mailto:tgasque@gmail.com">Travis Gasque</a></p>
+	</footer>
+
+</body>
+</html>

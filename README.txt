@@ -1,0 +1,1 @@
+This is a project designed create a data visualization of the Georgia Budget with the Google Visualization API.
